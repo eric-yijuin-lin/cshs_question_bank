@@ -8,3 +8,100 @@
   font-family: 'BopomoKai', sans-serif;
   font-size: 36px;
 }
+
+.main-container {
+  display: flex;
+  height: 100vh;
+  gap: 20px;
+}
+
+.question-column {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.question-row {
+  display: flex;
+  flex: 1;
+  gap: 20px;
+  /* 👇 新增以下樣式 */
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.info-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly; /* 這也可以保底分配 */
+  align-items: center;
+  text-align: center;
+  height: 100%; /* ✅ 關鍵：讓它填滿整個 row */
+}
+
+.info-column .cell {
+  flex: 1;
+  display: flex;
+  align-items: center;     /* 垂直置中 */
+  justify-content: center; /* 水平置中 */
+  text-align: center;
+  font-size: clamp(1.5rem, 2.0vw, 2.5rem);
+}
+
+.cell.answer {
+  background-color: yellow;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.text-column {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.question-text {
+  font-family: 'BopomoKai', sans-serif;
+  font-size: clamp(2rem, 3vw, 4rem);
+  text-align: center;
+}
+
+.timer-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.countdown {
+  font-size: clamp(2.5rem, 4vw, 5rem);
+  font-weight: bold;
+}
+
+.orange { color: orange; }
+.red { color: red; }
+.hidden { visibility: hidden; }
+
+button#revealBtn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  background-color: lightgreen;
+}
+
+button#nextBtn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  background-color:lightsalmon;
+}

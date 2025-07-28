@@ -3,117 +3,66 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>題目倒數頁面</title>
-    <style>
-        @font-face {
-            font-family: 'BopomoKai';
-            src: url("/static/fonts/BpmfZihiKaiStd-Regular.ttf") format("truetype");
-        }
-
-        body {
-            margin: 0;
-            padding: 20px;
-            font-family: sans-serif;
-        }
-
-        .container {
-            display: flex;
-            gap: 20px;
-            height: 100vh;
-            /* 讓整個 container 撐滿 viewport */
-        }
-
-        /* 第一欄固定 100% viewport 高度，三格平均分配高度 */
-        .column-1 {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        .column-1 .cell {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            /* 垂直置中文字 */
-            justify-content: center;
-            /* 水平置中文字 */
-            font-size: clamp(1.5rem, 2.5vw, 3rem);
-            text-align: center;
-        }
-
-        /* 第二欄與第三欄正常顯示即可 */
-        .column {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            text-align: center;
-            font-size: clamp(1.5rem, 2.5vw, 3rem);
-        }
-
-        .question-text {
-            font-family: 'BopomoKai', sans-serif;
-            font-size: clamp(2rem, 3vw, 4rem);
-        }
-
-        .countdown {
-            font-size: clamp(2.5rem, 4vw, 5rem);
-            font-weight: bold;
-        }
-
-        .orange {
-            color: orange;
-        }
-
-        .red {
-            color: red;
-        }
-
-        .hidden {
-            visibility: hidden;
-        }
-    </style>
+    <title>兩題顯示</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
-    <div class="container">
-        <!-- Column 1 -->
-        <div class="column column-1">
-            <div class="cell" id="planet">{{ question.planet }}</div>
-            <div class="cell hidden" id="stage">{{ question.stage }}</div>
-            <div class="cell hidden" id="source">{{ question.source }}</div>
+    <div class="main-container">
+        <!-- 左邊：兩題 -->
+        <div class="question-column">
+            <!-- 題目一 -->
+            <div class="question-row">
+                <div class="info-column">
+                    <div class="cell" id="planet1">{{ question1.planet }}</div>
+                    <div class="cell hidden" id="stage1">{{ question1.stage }}</div>
+                    <div class="cell hidden" id="source1">{{ question1.source }}</div>
+                    <div class="cell answer hidden" id="answer1">{{ question1.answer }}</div>
+                </div>
+                <div class="text-column">
+                    <div class="question-text">{{ question1.question }}</div>
+                </div>
+            </div>
+
+            <!-- 題目二 -->
+            <div class="question-row">
+                <div class="info-column">
+                    <div class="cell" id="planet2">{{ question2.planet }}</div>
+                    <div class="cell hidden" id="stage2">{{ question2.stage }}</div>
+                    <div class="cell hidden" id="source2">{{ question2.source }}</div>
+                    <div class="cell answer hidden" id="answer2">{{ question2.answer }}</div>
+                </div>
+                <div class="text-column">
+                    <div class="question-text">{{ question2.question }}</div>
+                </div>
+            </div>
         </div>
 
-        <!-- Column 2 -->
-        <div class="column">
-            <div class="question-text">{{ question.question }}</div>
-        </div>
-
-        <!-- Column 3 -->
-        <div class="column">
-            <div id="timer" class="countdown">60</div>
+        <!-- 右邊：一個 timer -->
+        <div class="timer-column">
+            <div id="timer" class="countdown">90</div>
+            <button id="revealBtn">公布答案</button>
+            <button id="nextBtn">下一題</button>
         </div>
     </div>
 
     <script>
-        let timeLeft = 60;
+        let timeLeft = 90;
+        let answerShown = false;
         const timerEl = document.getElementById("timer");
-        const stageEl = document.getElementById("stage");
-        const sourceEl = document.getElementById("source");
 
         const countdown = setInterval(() => {
             timeLeft--;
             timerEl.textContent = timeLeft;
 
-            // 顯示條件邏輯
-            if (timeLeft === 40) {
-                stageEl.classList.remove("hidden");
+            if (timeLeft === 60) {
+                document.getElementById("stage1").classList.remove("hidden");
+                document.getElementById("stage2").classList.remove("hidden");
             }
-            if (timeLeft === 20) {
-                sourceEl.classList.remove("hidden");
+
+            if (timeLeft === 30) {
+                document.getElementById("source1").classList.remove("hidden");
+                document.getElementById("source2").classList.remove("hidden");
             }
 
             // 變色邏輯
@@ -123,8 +72,6 @@
             } else if (timeLeft <= 30) {
                 timerEl.classList.add("orange");
                 timerEl.classList.remove("red");
-            } else {
-                timerEl.classList.remove("orange", "red");
             }
 
             // 結束倒數
@@ -133,6 +80,26 @@
                 timerEl.textContent = "時間到";
             }
         }, 1000);
+
+        document.getElementById("revealBtn").addEventListener("click", () => {
+            clearInterval(countdown);
+            answerShown = true;
+            timerEl.textContent = "公布答案";
+
+            // 顯示答案
+            document.getElementById("answer1").classList.remove("hidden");
+            document.getElementById("answer2").classList.remove("hidden");
+
+            // 若尚未顯示 stage/source，也一併顯示
+            document.getElementById("stage1").classList.remove("hidden");
+            document.getElementById("stage2").classList.remove("hidden");
+            document.getElementById("source1").classList.remove("hidden");
+            document.getElementById("source2").classList.remove("hidden");
+        });
+
+        document.getElementById("nextBtn").addEventListener("click", () => {
+            window.location.reload();  // 重新載入目前頁面（即 /question）
+        });
     </script>
 </body>
 

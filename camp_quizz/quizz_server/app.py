@@ -16,7 +16,9 @@ def get_questions():
                 "question": row["題目"],
                 "source": row["出處"],
             }
-            print(question)
+            # print(question)
+            stage_prfix = question["stage"] + "-"
+            question["source"] = question["source"].replace(stage_prfix, "")
             questions.append(question)
     return questions
 
@@ -37,5 +39,6 @@ def home():
 
 @app.route("/question")
 def question():
-    question = QUESTION_BANK.pop(0)
-    return render_template("question.html", question=question)
+    q1 = QUESTION_BANK.pop(0)
+    q2 = QUESTION_BANK.pop(0)
+    return render_template("question.html", question1=q1, question2=q2)
