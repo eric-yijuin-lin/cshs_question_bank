@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'BopomoKai';
+  src: url('/static/fonts/BpmfZihiKaiStd-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+
+.bpmf {
+  font-family: 'BopomoKai', sans-serif;
+  font-size: 36px;
+}
