@@ -69,8 +69,19 @@
 
 .question-text {
   font-family: 'BopomoKai', sans-serif;
-  font-size: clamp(2rem, 3vw, 4rem);
+  font-size: clamp(1.5rem, 2.5vw, 3.5rem);
   text-align: center;
+}
+
+.question-text .question-type {
+  background-color: #777;
+  color: white;
+  padding: 4px 10px;
+  margin-right: 10px;
+  border-radius: 6px;
+  font-size: inherit;       /* ✅ 跟外層字一樣大 */
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .timer-column {

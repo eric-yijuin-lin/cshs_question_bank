@@ -20,7 +20,10 @@
                     <div class="cell answer hidden" id="answer1">{{ question1.answer }}</div>
                 </div>
                 <div class="text-column">
-                    <div class="question-text">{{ question1.question }}</div>
+                    <div class="question-text">
+                        <span class="question-type">{{ question1.question_type }}</span>
+                        {{ question1.question }}
+                    </div>
                 </div>
             </div>
 
@@ -33,7 +36,10 @@
                     <div class="cell answer hidden" id="answer2">{{ question2.answer }}</div>
                 </div>
                 <div class="text-column">
-                    <div class="question-text">{{ question2.question }}</div>
+                    <div class="question-text">
+                        <span class="question-type">{{ question2.question_type }}</span>
+                        {{ question2.question }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -42,7 +48,7 @@
         <div class="timer-column">
             <div id="timer" class="countdown">90</div>
             <button id="revealBtn">公布答案</button>
-            <button id="nextBtn">下一題</button>
+            <button id="nextBtn" disabled>下一題</button>
         </div>
     </div>
 
@@ -78,6 +84,7 @@
             if (timeLeft <= 0) {
                 clearInterval(countdown);
                 timerEl.textContent = "時間到";
+                document.getElementById("revealBtn").disabled = false;
             }
         }, 1000);
 
@@ -85,6 +92,7 @@
             clearInterval(countdown);
             answerShown = true;
             timerEl.textContent = "公布答案";
+            document.getElementById("nextBtn").disabled = false;
 
             // 顯示答案
             document.getElementById("answer1").classList.remove("hidden");
