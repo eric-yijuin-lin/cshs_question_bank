@@ -2,7 +2,6 @@ from flask import Flask, render_template
 from csv import DictReader
 import random
 
-
 def get_questions():
     questions = []
     with open('static/questions.csv', mode='r', encoding='utf-8') as csvfile:

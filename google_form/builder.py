@@ -3,7 +3,10 @@ from apiclient import discovery
 from httplib2 import Http
 from oauth2client import client, file, tools
 import csv
-import json
+from datetime import datetime
+import os
+
+print("目前路徑", os.getcwd())
 
 POINT_PER_QUESTION = 5
 
@@ -34,6 +37,7 @@ def get_correct_option(options_str, answer_letter):
 
 def get_questions_from_csv(file_path):
     questions = []
+    print("目前路徑", os.getcwd())
     with open(file_path, mode='r', encoding='utf-8') as csvfile:
         csv_reader = csv.DictReader(csvfile)
         for row in csv_reader:
@@ -84,7 +88,7 @@ DISCOVERY_DOC = "https://forms.googleapis.com/$discovery/rest?version=v1"
 store = file.Storage("token.json")
 creds = None
 if not creds or creds.invalid:
-  flow = client.flow_from_clientsecrets("client_secrets.json", SCOPES)
+  flow = client.flow_from_clientsecrets("./google_form/client_secrets.json", SCOPES)
   creds = tools.run_flow(flow, store)
 
 form_service = discovery.build(
@@ -95,9 +99,10 @@ form_service = discovery.build(
     static_discovery=False,
 )
 
+form_title = datetime.now().strftime("%Y%m%d")
 NEW_FORM = {
     "info": {
-        "title": "Quickstart form",
+        "title": form_title,
     }
 }
 result = form_service.forms().create(body=NEW_FORM).execute()
@@ -118,9 +123,10 @@ question_setting = (
     .execute()
 )
 getresult = form_service.forms().get(formId=result["formId"]).execute()
-print(getresult)
-        
-questions = get_questions_from_csv("./程式設計題庫 - 工作表1.csv")
+# print(getresult)
+
+csv_file = datetime.now().strftime("%Y%m%d")
+questions = get_questions_from_csv(f"./google_form/{csv_file}.csv")
 
 
 NEW_QUESTION = {
