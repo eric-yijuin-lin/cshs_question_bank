@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>關鍵字配對</title>
+</head>
+<body>
+    <h1>關鍵字配對</h1>
+
+    <section>
+        <p><strong>ID：</strong>{{ question.id }}</p>
+        <p><strong>考點：</strong>{{ question["考點"] }}</p>
+    </section>
+
+    <hr>
+
+    <form method="POST" action="{{ url_for('keywords_match') }}">
+        <input type="hidden" name="question_id" value="{{ question.id }}">
+
+        <div>
+            <label for="keyword_1">關鍵字 1：</label>
+            <input type="text" id="keyword_1" name="keywords" autocomplete="off">
+        </div>
+
+        <div>
+            <label for="keyword_2">關鍵字 2：</label>
+            <input type="text" id="keyword_2" name="keywords" autocomplete="off">
+        </div>
+
+        <div>
+            <label for="keyword_3">關鍵字 3：</label>
+            <input type="text" id="keyword_3" name="keywords" autocomplete="off">
+        </div>
+
+        <div>
+            <label for="keyword_4">關鍵字 4：</label>
+            <input type="text" id="keyword_4" name="keywords" autocomplete="off">
+        </div>
+
+        <div>
+            <label for="keyword_5">關鍵字 5：</label>
+            <input type="text" id="keyword_5" name="keywords" autocomplete="off">
+        </div>
+
+        <br>
+
+        <button type="submit">送出</button>
+    </form>
+</body>
+</html>
